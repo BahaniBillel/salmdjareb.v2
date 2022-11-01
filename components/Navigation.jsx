@@ -6,17 +6,19 @@ import { Bars3BottomRightIcon } from "@heroicons/react/24/solid";
 
 function Navigation() {
   return (
-    <div className="flex flex-row w-screen  px-5 md:px-10 xl:px-40 py-2 items-center justify-between ">
+    <nav className="flex flex-row w-screen  px-5 md:px-10 xl:px-40 py-2 items-center justify-between bg-bluegreen ">
       {/* logo */}
-      <div className="">
+
+      <Link href="/">
         <Image
           src={Logo}
           alt="Vercel Logo"
-          width={140}
+          width={160}
           height={70}
           objectFit="contain"
+          className=" cursor-pointer"
         />
-      </div>
+      </Link>
 
       {/* Navigationbar */}
       <div className=" ">
@@ -37,19 +39,17 @@ function Navigation() {
               <span className="text-white py-2 px-3">User</span>
             </Link>
           </li>
-          <li>
-            <Link href="#">
-              <span className="bg-blue-300 py-2 px-3 rounded-lg ">
-                For Businesses
-              </span>
+          <li className="bg-lightOrange cursor-pointer hover:scale-95 hover:bg-beige transition duration-200 py-2 px-3 rounded-lg ">
+            <Link href="/" className="">
+              <span className="  ">For Businesses</span>
             </Link>
           </li>
         </ul>
         <div>
-          <Bars3BottomRightIcon className="text-white h-10 cursor-pointer lg:hidden md:hidden sm:visible"  />
+          <Bars3BottomRightIcon className="text-white h-10 cursor-pointer lg:hidden md:hidden sm:visible" />
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 

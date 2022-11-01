@@ -8,4 +8,15 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+  theme: {
+    colors: {
+      bluegreen: "#0d98ba",
+      beige: "#fbd1a2",
+      white: "#ffffff",
+      blackgrey: "#1f2937",
+      gray: "#9ca3af",
+      transparent: "transparent",
+      lightOrange: "#fff7ed",
+    },
+  },
+};
