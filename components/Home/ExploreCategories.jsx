@@ -15,7 +15,7 @@ function CategoryCards() {
       </div>
       <div className="mt-5 grid grid-cols-2  grid-rows-5 md:grid-cols-4 md:grid-rows-3 gap-4">
         {data.map(({ icon, label, slug }) => (
-          <CardToExplore icon={icon} label={label} url={slug} />
+          <CardToExplore icon={icon} label={label} url={slug} key={label} />
         ))}
       </div>
     </section>

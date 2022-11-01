@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
       <header>
         <Navigation />
       </header>
-      <main>
+      <main className="bg-lightOrange h-screen">
         <Component {...pageProps} />
       </main>
     </>
