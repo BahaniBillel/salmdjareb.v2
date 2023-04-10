@@ -1,5 +1,6 @@
 import "tailwindcss/tailwind.css";
 import Navigation from "../components/Navigation";
+import "../styles.css";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -7,7 +8,7 @@ function MyApp({ Component, pageProps }) {
       <header>
         <Navigation />
       </header>
-      <main className="bg-lightOrange h-screen">
+      <main className=" h-screen">
         <Component {...pageProps} />
       </main>
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Logo from "../images/SAL_MDJAREB_WHITE.png";
+import Logo from "../images/logo-6.png";
 import Link from "next/link";
 import { Bars3BottomRightIcon } from "@heroicons/react/24/solid";
 
@@ -13,8 +13,8 @@ function Navigation() {
         <Image
           src={Logo}
           alt="Vercel Logo"
-          width={160}
-          height={70}
+          width={200}
+          height={100}
           objectFit="contain"
           className=" cursor-pointer"
         />
@@ -23,23 +23,29 @@ function Navigation() {
       {/* Navigationbar */}
       <div className=" ">
         {/* Hidden in small screens */}
-        <ul className="md:flex flex-row space-x-8  hidden md:visible lg:visible xl:visible 2xl:visible  ">
+        <ul className="md:flex flex-row space-x-8  hidden md:visible lg:visible xl:visible 2xl:visible items-center  ">
           <li className="">
             <Link href="#">
-              <span className="text-white py-2 px-3">Categories</span>
+              <span className="text-goldenBeige py-2 px-3 cursor-pointer">
+                Categories
+              </span>
             </Link>
           </li>
           <li>
             <Link href="#">
-              <span className="text-white py-2 px-3">Blog</span>
+              <span className="text-goldenBeige py-2 px-3 cursor-pointer">
+                Blog
+              </span>
             </Link>
           </li>
           <li>
             <Link href="#">
-              <span className="text-white py-2 px-3">User</span>
+              <span className="text-goldenBeige py-2 px-3 cursor-pointer">
+                User
+              </span>
             </Link>
           </li>
-          <li className="bg-lightOrange cursor-pointer hover:scale-95 hover:bg-beige transition duration-200 py-2 px-3 rounded-lg ">
+          <li className="bg-transparent border-goldenBeige border text-goldenBeige cursor-pointer hover:scale-95 hover:bg-goldenBeige hover:text-blackgrey transition duration-200 py-2 px-3 rounded-lg ">
             <Link href="/" className="">
               <span className="  ">For Businesses</span>
             </Link>

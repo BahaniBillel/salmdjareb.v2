@@ -1,7 +1,8 @@
 import React from "react";
 import { MagnifyingGlassIcon, CakeIcon } from "@heroicons/react/24/solid";
 import CardToExplore from "./CardToExplore";
-import data from "../../components/data";
+import data from "../data";
+import businessDB from "../../database/BusinessDB";
 
 function CategoryCards() {
   return (
@@ -14,9 +15,18 @@ function CategoryCards() {
         <div className="text-bluegreen font-bold cursor-pointer">View all</div>
       </div>
       <div className="mt-5 grid grid-cols-2  grid-rows-5 md:grid-cols-4 md:grid-rows-3 gap-4">
-        {data.map(({ icon, label, slug }) => (
-          <CardToExplore icon={icon} label={label} url={slug} key={label} />
-        ))}
+        {businessDB.map((category) => {
+          return category.categories.map((cat) => {
+            return (
+              <CardToExplore
+                icon={cat.icon}
+                label={cat.catName}
+                url={cat.catName}
+                key={cat.catId}
+              />
+            );
+          });
+        })}
       </div>
     </section>
   );

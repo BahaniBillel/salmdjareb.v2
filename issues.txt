@@ -1,0 +1,2 @@
+1-how to save icon in firestore
+2-structure data in firestore / BRANCH CATEGORY BUSINESS (see chatGPT)

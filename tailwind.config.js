@@ -7,17 +7,18 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
   theme: {
     colors: {
-      bluegreen: "#0d98ba",
+      bluegreen: "#252525",
+      goldenBeige: "#c7a663",
       beige: "#fbd1a2",
       white: "#ffffff",
       blackgrey: "#1f2937",
       gray: "#9ca3af",
       lightGray: "#e5e7eb",
       transparent: "transparent",
-      lightOrange: "#fff7ed",
+      lightOrange: "#808080",
     },
   },
 };

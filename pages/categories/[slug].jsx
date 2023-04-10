@@ -1,31 +1,37 @@
 import React from "react";
 import { useRouter } from "next/router";
 import data from "../../components/data";
-import Image from "next/image";
-import Lays from "../../images/Lays.png";
-import {
-  MagnifyingGlassIcon,
-  CakeIcon,
-  LockOpenIcon,
-} from "@heroicons/react/24/solid";
+import BusinessCard from "../../components/BusinessCard";
+import { FaStar } from "react-icons/fa";
+import Pagination from "../../components/Pagination";
+import ReviewsSlider from "../../components/Home/ReviewsSlider";
+import businessDB from "../../database/BusinessDB";
 
-import ReactStars from "react-stars";
-
-function PageDetail() {
+function CategoryDetailPage() {
   const router = useRouter();
   const { slug } = router.query;
+  const page = businessDB.find((branch) =>
+    branch.categories.find((cat) => cat.catName === slug)
+  );
+  const found = !!page;
+  if (found) {
+    console.log(page);
+  } else {
+    console.error("Page not found");
+  }
 
-  const page = data.find((x) => x.slug === slug);
-
-  console.log(page);
   return (
-    <div className="">
+    <div className="bg-gray/5">
       {/* Page details */}
-      <div className="w-full bg-white h-32 md:h-40 px-10 md:px-24 py-4 grid grid-rows-4 grid-cols-1 text-left border-b border-lightGray ">
+      <div className="w-full bg-white h-346 md:h-44 px-5 md:px-10 xl:px-40  py-4 grid grid-rows-4 grid-cols-1 text-left border-b border-lightGray ">
         <p className="row-span-1 ">Restaurants & Hotels &gt; FastFood</p>
-        <div className="row-span-3   mt-5 md:text-center">
+        <div className="row-span-3   mt-5 md:text-center space-y-3">
           <h3 className=" text-2xl font-semibold md:text-5xl  ">
-            {/* Best in {page.label} */}
+            {found ? (
+              <div>Best in {slug}</div>
+            ) : (
+              <div className="text-sm">Loading...</div>
+            )}
           </h3>
           <p>Compare the companies in this category</p>
         </div>
@@ -34,324 +40,161 @@ function PageDetail() {
       {/* Conpanies List */}
       <div className="p-5 md:px-10 xl:px-40 grid grid-cols-10 gap-5  ">
         {/* left side */}
-        <div className="md:col-span-3   bg-beige hidden md:grid rounded-sm  grid-col-1 grid-row-24 overflow-hidden gap-5">
-          <div className="rows-span-10 bg-white p-4">1</div>
-          <div className="rows-span-10 bg-blackgrey">2</div>
-          <div className="rows-span-4 bg-blackgrey">3</div>
-        </div>
+        <section
+          className="md:col-span-3    hidden    overflow-hidden   
+        md:flex flex-col space-y-5 "
+        >
+          {/* upper side */}
+          <div className="bg-white shadow-md rounded-md p-5 ">
+            <div>
+              {/* Rating filter */}
+              <div className=" border-b pb-5 border-gray/30">
+                <h2 className="font-semibold text-lg tracking-wide pb-2">
+                  Rating
+                </h2>
+                <div className="grid grid-cols-4 grid-rows-1 h-10 rounded-md overflow-hidden border border-gray/80   font-light justify-center items-center text-sm">
+                  <button
+                    type="button"
+                    className="border-r border-gray/80 text-center flex flex-row flex-nowrap space-x-2 items-center justify-center h-full cursor-pointer
+               focus:bg-bluegreen/40 focus:font-bold"
+                  >
+                    Any
+                  </button>
+                  <button
+                    type="button"
+                    className="border-r border-gray/80 text-center flex flex-row flex-nowrap space-x-2 items-center justify-center h-full cursor-pointer
+               focus:bg-bluegreen/40 focus:font-bold"
+                  >
+                    <FaStar className="mr-1" /> 3.0+
+                  </button>
+                  <button
+                    type="button"
+                    className="border-r border-gray/80 text-center flex flex-row flex-nowrap space-x-2 items-center justify-center h-full cursor-pointer
+               focus:bg-bluegreen/40 focus:font-bold"
+                  >
+                    <FaStar className="mr-1" /> 4.0+
+                  </button>
+                  <button
+                    type="button"
+                    className=" text-center flex flex-row flex-nowrap space-x-2 items-center justify-center h-full cursor-pointer
+               focus:bg-bluegreen/40 focus:font-bold"
+                  >
+                    <FaStar className="mr-1" /> 4.5+
+                  </button>
+                </div>
+              </div>
+
+              {/* location filter */}
+
+              <div className=" border-b py-5 border-gray/30">
+                <h2 className="font-semibold text-lg tracking-wide pb-2">
+                  Location
+                </h2>
+                <label htmlFor="wilaya" className="text-sm">
+                  Wilaya
+                </label>
+                <select
+                  name=""
+                  id="wilaya"
+                  className="border border-gray/80 rounded-md h-10 w-full px-4 text-sm"
+                >
+                  <option value="adrar">Adrar</option>
+                  <option value="blida">Blida</option>
+                </select>
+
+                <label htmlFor="wilaya" className="text-sm">
+                  Commune
+                </label>
+                <select
+                  name=""
+                  id="wilaya"
+                  className="border border-gray/80 rounded-md h-10 w-full px-4 text-sm"
+                >
+                  <option value="adrar">Bouarfa</option>
+                  <option value="blida">ouled yaich</option>
+                </select>
+              </div>
+
+              {/* subcategories filter */}
+
+              <div className="flex flex-row space-x-2 flex-wrap gap-3 py-5">
+                {data.map((card) => {
+                  return card.activities.map((activity) => {
+                    return activity.subactivity.map((subactivity, index) => {
+                      return (
+                        <button
+                          key={index}
+                          className="focus:bg-bluegreen/40 rounded-md border border-gray/80 px-2 py-2 text-sm
+                       hover:bg-bluegreen/50 hover:border-white focus:border-white focus:font-semibold "
+                        >
+                          {subactivity}
+                        </button>
+                      );
+                    });
+                  });
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* bottom side */}
+          <div className="bg-white shadow-md rounded-md p-5 ">
+            <h2 className="font-semibold text-lg">Related categories</h2>
+
+            <div>
+              {data.map((card) => {
+                const total = card.activities.reduce((sum, activity) => {
+                  return sum + activity.subactivity.length;
+                }, 0);
+                return (
+                  <div
+                    key={card.id}
+                    className="flex flex-row flex-nowrap space-x-5 border-b border-gray/40 py-2 cursor-pointer text-sm tracking-wide"
+                  >
+                    {card.branch}
+                    <div className="flex flex-grow" />
+                    {total}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* end of the left side */}
+
         {/* right side */}
-        <div className="md:col-span-7 col-span-10  rounded-sm  md:p-1 flex flex-col space-y-5">
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
+        <section className="md:col-span-7 col-span-10  rounded-sm  md:p-1 flex flex-col space-y-5">
+          {businessDB.map((category) => {
+            return category.categories
+              .filter((category) => category.catName == slug)
+              .map((cat) => {
+                return cat.businesses.map((business) => {
+                  return (
+                    <BusinessCard
+                      id={business.businessId}
+                      url={business.businessName}
+                      key={business.businessId}
+                      BusinessName={business.businessName}
+                    />
+                  );
+                });
+              });
+          })}
 
-          {/* Card ends */}
+          <div className="flex flex-grow" />
+          {/* <Pagination
+            totalItems={page ? page.branch.length : 0}
+            itemsPerPage={5}
+          /> */}
 
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
+          <ReviewsSlider />
+        </section>
 
-          {/* Card ends */}
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card ends */}
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card ends */}
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card ends */}
-          {/* Card template */}
-          <div
-            className=" overflow-hidden w-full bg-white h-28 rounded-md shadow-sm hover:shadow-md 
-          transition-all duration-300 active: cursor-pointer border border-lightGray hover:border-none p-4 grid grid-cols-10 grid-rows-3"
-          >
-            <div className="col-span-2 row-span-3">
-              <Image
-                src={Lays}
-                with={120}
-                objectFit="contain"
-                alt="lays-logo"
-              />
-            </div>
-            <div className="col-span-8 row-span-2 border-b border-lightGray flex flex-row   ">
-              <div>
-                <h2 className="text-2xl font-semibold">Lays</h2>
-                <p className="text-xs text-gray">Food processing industry</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div className="flex flex-col items-end">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  color2={"#ffd700"}
-                  value={4.5}
-                />
-                <p className="text-sm text-bluegreen font-semibold">
-                  SMScrore : 4.3/5
-                </p>
-              </div>
-            </div>
-            {/* bottom row */}
-            <div className="col-span-8 row-span-1 pt-1 flex flex-row space-x-8  ">
-              <div className="flex flex-row flex-nowrap space-x-2">
-                <CakeIcon className="h-4 text-gray hover:text-blackgrey" />
-                <LockOpenIcon className="h-4 text-gray hover:text-blackgrey" />
-                <MagnifyingGlassIcon className="h-4 text-gray hover:text-blackgrey" />
-              </div>
-              <div className="   flex-row space-x-1 hidden md:flex">
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-                <p className="text-xs text-gray">Potato chips.</p>
-              </div>
-              <div className="flex-grow"></div>
-              <div>
-                <p className="text-xs">Latest Reviews</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card ends */}
-        </div>
+        {/* end of the right side */}
       </div>
     </div>
   );
 }
 
-export default PageDetail;
+export default CategoryDetailPage;
