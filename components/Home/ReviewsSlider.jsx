@@ -71,9 +71,8 @@ const ReviewsSlider = () => {
   return (
     <div ref={sliderRef} className="keen-slider  ">
       {dummyData.map((data) => (
-        <div className="keen-slider__slide ">
+        <div className="keen-slider__slide " key={data.id}>
           <ReviewShowcaseCard
-            key={data.id}
             businessName={data.businessName}
             overallRating={data.overallRating}
             reviewsCount={data.reviewsCount}
